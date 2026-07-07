@@ -17,7 +17,11 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const IMG_DIR = path.join(__dirname, "images");
-const CFG = JSON.parse(await fs.readFile(path.join(IMG_DIR, "prompts.json"), "utf8"));
+// PROMPTS permet d'utiliser un autre fichier de prompts (ex: prompts-phonics.json).
+const CFG_PATH = process.env.PROMPTS
+  ? path.resolve(__dirname, process.env.PROMPTS)
+  : path.join(IMG_DIR, "prompts.json");
+const CFG = JSON.parse(await fs.readFile(CFG_PATH, "utf8"));
 
 const args = process.argv.slice(2);
 const only = (args.find((a) => a.startsWith("--only=")) || "").split("=")[1];

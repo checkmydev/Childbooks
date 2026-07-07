@@ -1,11 +1,13 @@
 /* service-worker.js — cache-first pour un fonctionnement 100% offline. */
-const CACHE = "ptits-contes-v2";
+const CACHE = "leo-sons-v3";
 const ASSETS = [
   "./",
   "./index.html",
   "./css/styles.css",
+  "./css/phonics.css",
   "./js/stories.js",
   "./js/illustrations.js",
+  "./js/phonics.js",
   "./js/app.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",

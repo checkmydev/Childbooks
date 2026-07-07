@@ -33,17 +33,34 @@ const args = process.argv.slice(2);
 const only = (args.find((a) => a.startsWith("--only=")) || "").split("=")[1];
 const force = args.includes("--force");
 
-// Charge js/stories.js (qui fait `window.STORIES = [...]`).
-const storiesCode = await fs.readFile(path.join(__dirname, "js", "stories.js"), "utf8");
-const win = {};
-new Function("window", storiesCode)(win);
-const STORIES = win.STORIES;
-
 await fs.mkdir(AUDIO_DIR, { recursive: true });
 
 function baseName(page) { return page.image.replace(/\.png$/i, ""); }
 
 async function exists(p) { try { await fs.access(p); return true; } catch { return false; } }
+
+// AUDIO_LIST permet de fournir une liste [{file, text}] au lieu des histoires
+// (ex: audio/phonics-audio.json pour les sons/syllabes/mots).
+async function buildJobs() {
+  if (process.env.AUDIO_LIST) {
+    const list = JSON.parse(await fs.readFile(path.resolve(__dirname, process.env.AUDIO_LIST), "utf8"));
+    return list
+      .filter((e) => !only || e.file === only)
+      .map((e) => ({ name: e.file, text: e.text, dest: path.join(AUDIO_DIR, `${e.file}.mp3`) }));
+  }
+  const storiesCode = await fs.readFile(path.join(__dirname, "js", "stories.js"), "utf8");
+  const win = {};
+  new Function("window", storiesCode)(win);
+  const out = [];
+  for (const story of win.STORIES) {
+    for (const page of story.pages) {
+      const name = baseName(page);
+      if (only && name !== only) continue;
+      out.push({ name, text: page.text, dest: path.join(AUDIO_DIR, `${name}.mp3`) });
+    }
+  }
+  return out;
+}
 
 function synth(text, dest) {
   return new Promise((resolve, reject) => {
@@ -54,14 +71,7 @@ function synth(text, dest) {
   });
 }
 
-const jobs = [];
-for (const story of STORIES) {
-  for (const page of story.pages) {
-    const name = baseName(page);
-    if (only && name !== only) continue;
-    jobs.push({ name, text: page.text, dest: path.join(AUDIO_DIR, `${name}.mp3`) });
-  }
-}
+const jobs = await buildJobs();
 
 let done = 0, skipped = 0, failed = 0;
 for (const j of jobs) {

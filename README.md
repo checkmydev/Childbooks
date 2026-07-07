@@ -1,94 +1,72 @@
-# 📖 P'tits Contes
+# 🔤 Léo & les Sons
 
-Une **PWA** (application web installable) de livres pour enfants de **5 à 10 ans** :
-histoires illustrées, à **lire** et à **écouter** (narration à voix haute).
-100 % en français, fonctionne **hors ligne**.
+Une **PWA** (application web installable) pour **apprendre à lire** aux enfants,
+selon une méthode **phonique** (inspirée du principe des Alphas) : chaque son est
+incarné par un **personnage original** qui *fait* le son, puis on assemble les
+sons en syllabes et en mots. 100 % en français, gratuit, hors ligne.
 
-## ✨ Fonctionnalités
+> ⚖️ La méthode « La Planète des Alphas » est protégée. Cette app **n'utilise
+> aucun** personnage, nom ou visuel officiel : elle reprend uniquement le
+> **principe pédagogique** avec des personnages entièrement originaux.
 
-- **Bibliothèque** avec 4 histoires originales, filtrables par âge.
-- **Lecteur page par page** : illustration + texte, navigation ← → (clavier,
-  boutons, ou glissement tactile sur mobile).
-- **Illustrations IA** (générées avec Pollinations/Flux, gratuit) — repli
-  automatique sur des illustrations SVG si une image manque.
-- **Narration à voix neuronale** « Lis-moi ! » (voix française *Denise* via
-  edge-tts, gratuit), avec **surlignage du texte lu** et **vitesse ajustable**
-  (🐢 → 🐇). Passe automatiquement à la page suivante. Repli sur la voix du
-  navigateur si un fichier audio manque.
-- **Installable** sur téléphone/ordinateur (icône, plein écran, hors ligne).
+**En ligne : https://checkmydev.github.io/Childbooks/**
 
-## 📚 Les histoires
+## ✨ Le parcours (5 étapes)
 
-| Titre | Âge | Thème |
-|---|---|---|
-| Momo la petite loutre et l'étoile tombée | 5–6 | Entraide |
-| Le dragon qui avait peur du noir | 6–8 | Apprivoiser ses peurs |
-| Lila et la graine magique | 7–8 | Patience & nature |
-| Les trois inventeurs de la forêt | 9–10 | Coopération |
+1. **🔎 Les sons** — découvre 9 personnages (a, i, o, u, s, f, m, l, r) et écoute le son que fait chacun.
+2. **🔤 Les lettres** — associe chaque personnage à sa lettre (transformation son → lettre).
+3. **🔗 La fusion** — mélange une consonne et une voyelle pour lire une syllabe (« sss » + « aaa » → « sa »), avec audio.
+4. **📖 Les mots** — lis tes premiers mots illustrés (lama, sofa, salami, sumo, lasso, mur), syllabe par syllabe.
+5. **🎮 Les jeux** — *Trouve le son* et *Lis le mot*, avec score en étoiles.
 
-## 🚀 Lancer l'application
+**Bonus 📖 Mes histoires** : les 4 contes illustrés d'origine, avec narration
+audio, pour s'entraîner à lire une fois les sons appris.
 
-La PWA a besoin d'un **serveur HTTP** (le service worker ne fonctionne pas en
-`file://`). Depuis le dossier du projet :
+## 🎨 Voix & images — gratuit, sans clé API
 
+- **Voix neuronale** : edge-tts (voix Microsoft `fr-FR-DeniseNeural`).
+- **Images IA** : Pollinations.ai (modèle Flux). Repli emoji/SVG si une image manque.
+
+Régénérer / personnaliser :
 ```bash
-# Python (déjà installé)
+# Images des personnages et mots (méthode de lecture)
+PROMPTS=images/prompts-phonics.json node generate-images.mjs
+# Images des histoires (bonus)
+node generate-images.mjs
+# Audio des sons / syllabes / mots
+pip install edge-tts
+AUDIO_LIST=audio/phonics-audio.json node generate-audio.mjs
+# Audio des histoires (bonus)
+node generate-audio.mjs
+```
+
+## 🚀 Lancer en local
+
+Un **serveur HTTP** est nécessaire (le service worker ne marche pas en `file://`) :
+```bash
 python -m http.server 8000
 ```
-
-Puis ouvre **http://localhost:8000** dans Chrome, Edge ou Safari.
-Pour l'installer : menu du navigateur → « Installer l'application », ou le
-bouton « Installer l'appli » en haut à droite.
-
-## 🎨 Régénérer les images et la voix (gratuit, sans clé API)
-
-Les illustrations IA et les narrations sont **déjà générées** et incluses. Pour
-les regénérer ou les personnaliser :
-
-**Images** — Pollinations.ai (modèle Flux), gratuit et sans clé :
-```bash
-node generate-images.mjs            # génère les images manquantes dans images/
-node generate-images.mjs --force    # régénère tout
-```
-Prompts (un par page, avec « bible » de personnages pour la cohérence) dans
-[`images/prompts.json`](images/prompts.json). En cas d'absence d'un PNG, l'app
-affiche une illustration **SVG** de secours (aucune dépendance).
-
-**Voix** — edge-tts (voix neuronales Microsoft), gratuit et sans clé :
-```bash
-pip install edge-tts
-node generate-audio.mjs             # génère les MP3 manquants dans audio/
-VOICE=fr-FR-EloiseNeural node generate-audio.mjs --force   # changer de voix
-```
-Voir [`audio/README.md`](audio/README.md). En cas d'absence d'un MP3, l'app
-utilise la synthèse vocale du navigateur.
+Puis ouvre **http://localhost:8000**.
 
 ## 🗂️ Structure
 
 ```
-index.html              # coquille de l'app
-css/styles.css          # styles (UI enfant, responsive, accessible)
-js/stories.js           # contenu des 4 histoires
-js/illustrations.js     # moteur d'illustrations SVG (scènes + personnages)
-js/app.js               # bibliothèque, lecteur, narration TTS
-manifest.webmanifest    # métadonnées PWA
-service-worker.js       # cache hors ligne
-icons/                  # icônes de l'app
-images/                 # illustrations IA (PNG) + prompts.json
-audio/                  # narrations MP3 (voix neuronale)
-generate-images.mjs     # génération d'images IA (Pollinations, gratuit)
-generate-audio.mjs      # génération des narrations (edge-tts, gratuit)
-docs/…/…-design.md      # spec de conception
+index.html              # coquille + routeur
+css/styles.css          # styles communs + histoires
+css/phonics.css         # styles des vues d'apprentissage
+js/phonics.js           # données : sons, syllabes, mots
+js/app.js               # routeur, 4 activités, 2 jeux, lecteur d'histoires
+js/stories.js           # les 4 contes (bonus)
+js/illustrations.js     # illustrations SVG de secours (histoires)
+images/                 # personnages (son-*), mots (mot-*), histoires
+audio/                  # sons (son-*, pur-*), syllabes (syl-*), mots, histoires
+generate-images.mjs     # génération d'images (Pollinations, gratuit)
+generate-audio.mjs      # génération audio (edge-tts, gratuit)
+manifest.webmanifest / service-worker.js   # PWA (installable, hors ligne)
 ```
 
-## ➕ Ajouter une histoire
+## ➕ Ajouter un son / un mot
 
-Ajoute un objet dans `js/stories.js` (voir les exemples). Pour les
-illustrations, réutilise une clé de scène existante de `js/illustrations.js`
-ou ajoutes-en une nouvelle dans l'objet `SCENES`.
-
-## 🔊 Note sur la voix
-
-La qualité de la voix dépend des voix françaises installées sur l'appareil.
-Sur mobile (iOS/Android) et Windows/macOS, une voix française est en général
-disponible. À défaut, un message prévient que la lecture audio est indisponible.
+Édite `js/phonics.js` (`SOUNDS`, `WORDS`), ajoute les entrées correspondantes
+dans `images/prompts-phonics.json` et `audio/phonics-audio.json`, puis relance
+les scripts de génération ci-dessus.

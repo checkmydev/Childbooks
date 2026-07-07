@@ -1,0 +1,26 @@
+{
+  "provider": "pollinations",
+  "model": "flux",
+  "width": 768,
+  "height": 768,
+  "style": "Cute friendly children's educational cartoon, a single adorable character, bold clean rounded shapes, bright cheerful colors, soft plain pastel background, centered, simple. No text, no words, no letters, no watermark.",
+  "characters": {},
+  "pages": [
+    { "file": "son-a.png", "seed": 511, "prompt": "a cheerful round orange blob creature with a big wide-open smiling mouth, big happy eyes and little arms." },
+    { "file": "son-i.png", "seed": 512, "prompt": "a tall slim cheerful blue creature with a small round ball floating above its head like a dot, big friendly eyes, little smile." },
+    { "file": "son-o.png", "seed": 513, "prompt": "a round yellow creature with its mouth shaped like a surprised O, big round eyes, very cute." },
+    { "file": "son-u.png", "seed": 514, "prompt": "a smiling purple creature shaped like a cozy rounded U bowl or hammock, big friendly eyes." },
+    { "file": "son-s.png", "seed": 515, "prompt": "a cute friendly green snake curled into a smooth S shape, smiling gently, tiny forked tongue out." },
+    { "file": "son-f.png", "seed": 516, "prompt": "a cute friendly rocket ship with a little happy face on it and small orange flames at the bottom, ready to launch." },
+    { "file": "son-m.png", "seed": 517, "prompt": "a cute fuzzy purple monster with three rounded humps on its back, big friendly eyes and a happy smile." },
+    { "file": "son-l.png", "seed": 518, "prompt": "a cute smiling green garden snail with a swirly shell and little antennae." },
+    { "file": "son-r.png", "seed": 519, "prompt": "a cute friendly little robot with a round head, a small antenna, and a big smile." },
+
+    { "file": "mot-lama.png", "seed": 531, "prompt": "a cute fluffy llama standing, adorable cartoon animal." },
+    { "file": "mot-sofa.png", "seed": 532, "prompt": "a cozy comfy couch sofa, inviting cartoon furniture." },
+    { "file": "mot-salami.png", "seed": 533, "prompt": "a salami sausage with a couple of round slices next to it, appetizing cartoon food." },
+    { "file": "mot-sumo.png", "seed": 534, "prompt": "a friendly cartoon sumo wrestler standing and smiling, cute and funny." },
+    { "file": "mot-lasso.png", "seed": 535, "prompt": "a cowboy lasso, a looped rope, cartoon style on a plain background." },
+    { "file": "mot-mur.png", "seed": 536, "prompt": "a colorful brick wall, simple cheerful cartoon style." }
+  ]
+}

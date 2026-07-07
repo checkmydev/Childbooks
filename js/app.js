@@ -37,15 +37,24 @@
     synth.cancel(); synth.speak(u);
   }
 
-  // Joue audio/<file>.mp3 ; à défaut, prononce `fallbackText`.
-  function play(file, fallbackText, onend) {
+  // Joue une URL audio ; à défaut, prononce `fallbackText` (ou appelle onend).
+  function playUrl(url, fallbackText, onend) {
     stopAudio();
-    const a = new Audio(`audio/${file}.mp3`);
+    const a = new Audio(url);
     current = a;
-    a.onended = () => { current = null; if (onend) onend(); };
-    a.onerror = () => { current = null; if (fallbackText) speakText(fallbackText, onend); else if (onend) onend(); };
-    a.play().catch(() => { current = null; if (fallbackText) speakText(fallbackText, onend); else if (onend) onend(); });
+    const done = () => { current = null; if (onend) onend(); };
+    a.onended = done;
+    a.onerror = () => { current = null; if (fallbackText) speakText(fallbackText, onend); else done(); };
+    a.play().catch(() => { current = null; if (fallbackText) speakText(fallbackText, onend); else done(); });
   }
+
+  // Joue audio/<file>.mp3 (syllabes, mots…) ; à défaut, prononce `fallbackText`.
+  function play(file, fallbackText, onend) { playUrl(`audio/${file}.mp3`, fallbackText, onend); }
+
+  // Joue le son d'une lettre enregistré par l'utilisateur (audio/pur-<lettre>.wav).
+  // Pas de repli parlé pour les consonnes (éviterait de dire le NOM de la lettre) :
+  // tant que l'enregistrement n'existe pas, on reste silencieux et on enchaîne.
+  function playPhoneme(letter, onend) { playUrl(`audio/pur-${letter}.wav`, null, onend); }
 
   const bounce = (node) => { if (!node) return; node.classList.remove("pop"); void node.offsetWidth; node.classList.add("pop"); };
 
@@ -118,11 +127,11 @@
       </div>
     </div>`);
     node.querySelector("[data-back]").onclick = renderSons;
-    node.querySelector("[data-play]").onclick = (e) => { bounce(node.querySelector(".imgwrap")); play("son-" + s.letter, s.desc); bounce(e.currentTarget); };
+    node.querySelector("[data-play]").onclick = (e) => { bounce(node.querySelector(".imgwrap")); playPhoneme(s.letter); bounce(e.currentTarget); };
     node.querySelector("[data-prev]").onclick = () => renderSonDetail(SOUNDS[idx - 1].id);
     node.querySelector("[data-next]").onclick = () => renderSonDetail(SOUNDS[idx + 1].id);
     show(node);
-    setTimeout(() => play("son-" + s.letter, s.desc), 300); // joue à l'ouverture
+    setTimeout(() => playPhoneme(s.letter), 300); // joue à l'ouverture
   }
 
   /* ================= 2) LES LETTRES (association + transformation) ================= */
@@ -143,7 +152,7 @@
     </div>`);
     node.querySelector("[data-home]").onclick = renderHome;
     const fb = node.querySelector("[data-fb]");
-    play("son-" + s.letter, s.desc);
+    playPhoneme(s.letter);
     node.querySelectorAll("[data-pick]").forEach((b) => {
       b.onclick = () => {
         if (b.dataset.pick === s.id) {
@@ -151,7 +160,7 @@
           fb.textContent = `Bravo ! ${s.perso} devient la lettre « ${s.letter} ».`;
           node.querySelector(".quiz-visual").innerHTML =
             `<div class="transform"><span class="tr-letter" style="color:${s.color}">${s.letter}</span></div>`;
-          play("son-" + s.letter, s.letter);
+          playPhoneme(s.letter);
           node.querySelectorAll("[data-pick]").forEach((x) => (x.disabled = true));
           setTimeout(() => { lettresRound++; nextLettre(); }, 1800);
         } else {
@@ -198,8 +207,8 @@
       } else { fsSyl.textContent = "?"; playBtn.disabled = true; }
     }
     function playFusion(c, v) {
-      // son consonne -> son voyelle -> syllabe
-      play("pur-" + c, c, () => play("pur-" + v, v, () => play("syl-" + c + v, c + v)));
+      // son consonne (enregistré) -> son voyelle (enregistré) -> syllabe (TTS)
+      playPhoneme(c, () => playPhoneme(v, () => play("syl-" + c + v, c + v)));
     }
     node.querySelectorAll("[data-c]").forEach((b) => b.onclick = () => {
       node.querySelectorAll("[data-c]").forEach((x) => x.classList.remove("sel"));
@@ -282,7 +291,7 @@
       <p class="feedback" data-fb></p>
     </div>`);
     node.querySelector("[data-jeux]").onclick = renderJeux;
-    const rep = () => play("son-" + s.letter, s.desc);
+    const rep = () => playPhoneme(s.letter);
     node.querySelector("[data-replay]").onclick = rep;
     const fb = node.querySelector("[data-fb]");
     node.querySelectorAll("[data-pick]").forEach((b) => b.onclick = () => {

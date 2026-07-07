@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🎙️ Enregistre les sons</title>
+<style>
+ :root{--accent:#6a4fb0;--accent2:#ff8fbf;--ink:#2a2140;--soft:#6b6385;}
+ body{font-family:"Comic Sans MS",system-ui,sans-serif;background:#f5f0ff;color:var(--ink);margin:0;padding:22px;}
+ h1{color:var(--accent);text-align:center;margin:.2em 0;}
+ .note{text-align:center;color:var(--soft);max-width:680px;margin:0 auto 16px;}
+ .bar{max-width:720px;margin:0 auto 18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;}
+ .bar button{border:none;border-radius:999px;padding:12px 20px;font-family:inherit;font-weight:bold;cursor:pointer;font-size:1rem;}
+ #pick{background:var(--accent);color:#fff;}
+ #status{color:var(--soft);font-size:.95rem;}
+ .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;max-width:900px;margin:0 auto;}
+ .card{background:#fff;border-radius:18px;padding:16px;box-shadow:0 4px 12px rgba(42,33,64,.12);text-align:center;border-top:6px solid var(--accent);}
+ .card.done{border-top-color:#3fbf6a;}
+ .letter{font-size:2.6rem;font-weight:bold;color:var(--accent);line-height:1;}
+ .hint{color:var(--soft);font-size:.9rem;margin:4px 0 12px;min-height:2.4em;}
+ .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+ .row button{border:none;border-radius:12px;padding:10px 14px;font-family:inherit;font-weight:bold;cursor:pointer;font-size:.95rem;}
+ .rec{background:var(--accent2);color:#fff;}
+ .rec.recording{background:#e23b6d;animation:pulse 1s infinite;}
+ .play{background:#eee;color:var(--ink);}
+ .play:disabled{opacity:.4;}
+ .state{margin-top:8px;font-size:.85rem;color:#3fbf6a;min-height:1.2em;font-weight:bold;}
+ .state.err{color:#e23b6d;}
+ @keyframes pulse{50%{transform:scale(1.06);}}
+</style></head>
+<body>
+ <h1>🎙️ Enregistre les sons avec ta voix</h1>
+ <p class="note">1) Clique <b>« Choisir le dossier audio/ »</b> et sélectionne le dossier
+ <code>audio</code> du projet. 2) Pour chaque son : <b>Enregistrer</b>, prononce le son
+ <b>tenu</b> (ex : « ssss »), puis <b>Stop</b>. Le fichier <code>pur-&lt;lettre&gt;.wav</code>
+ est écrit dans <code>audio/</code>. Réécoute avec ▶, refais si besoin.</p>
+
+ <div class="bar">
+   <button id="pick">📂 Choisir le dossier audio/</button>
+   <span id="status">Dossier non choisi — les sons seront proposés en téléchargement.</span>
+ </div>
+
+ <div class="grid" id="grid"></div>
+
+<script>
+const SONS = [
+  ["a","Ouvre grand la bouche : « aaah »"],
+  ["i","Fais un grand sourire : « iiii »"],
+  ["o","Bouche bien ronde : « oooo »"],
+  ["u","Lèvres en avant : « uuuu »"],
+  ["s","Siffle comme un serpent : « sssss »"],
+  ["f","Souffle avec les dents : « fffff »"],
+  ["m","Bouche fermée, bourdonne : « mmmm »"],
+  ["l","Langue en haut : « llll »"],
+  ["r","Fais rouler / gronder : « rrrr »"],
+];
+
+let dirHandle = null, audioCtx = null, stream = null, source = null;
+
+document.getElementById("pick").onclick = async () => {
+  if (!window.showDirectoryPicker) {
+    setStatus("Écriture directe non supportée — utilise Chrome/Edge, ou les téléchargements ⬇.");
+    return;
+  }
+  try {
+    dirHandle = await window.showDirectoryPicker({ mode: "readwrite" });
+    if (dirHandle.requestPermission) await dirHandle.requestPermission({ mode: "readwrite" });
+    setStatus("✅ Dossier « " + dirHandle.name + " » — les enregistrements y sont écrits.");
+  } catch (e) { /* annulé */ }
+};
+function setStatus(t){ document.getElementById("status").textContent = t; }
+
+async function ensureAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === "suspended") await audioCtx.resume();
+  if (!stream) stream = await navigator.mediaDevices.getUserMedia({
+    audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+  });
+  if (!source) source = audioCtx.createMediaStreamSource(stream);
+  return audioCtx.sampleRate;
+}
+
+/* ---- Capture PCM directe (fiable, pas de décodage) ---- */
+function makeRecorder() {
+  const proc = audioCtx.createScriptProcessor(4096, 1, 1);
+  const mute = audioCtx.createGain(); mute.gain.value = 0; // évite le larsen
+  let buffers = [], len = 0, active = false;
+  proc.onaudioprocess = (e) => {
+    if (!active) return;
+    const ch = e.inputBuffer.getChannelData(0);
+    buffers.push(new Float32Array(ch)); len += ch.length;
+  };
+  return {
+    start() { buffers = []; len = 0; active = true; source.connect(proc); proc.connect(mute); mute.connect(audioCtx.destination); },
+    stop() {
+      active = false;
+      try { source.disconnect(proc); proc.disconnect(); mute.disconnect(); } catch (_) {}
+      const out = new Float32Array(len); let o = 0;
+      for (const b of buffers) { out.set(b, o); o += b.length; }
+      return out;
+    }
+  };
+}
+
+function process(samples) {
+  let data = samples;
+  const thr = 0.02; let s = 0, e = data.length - 1;
+  while (s < data.length && Math.abs(data[s]) < thr) s++;
+  while (e > s && Math.abs(data[e]) < thr) e--;
+  if (e <= s) return null; // rien capté
+  const rate = audioCtx.sampleRate;
+  const pad = Math.floor(rate * 0.03);
+  s = Math.max(0, s - pad); e = Math.min(data.length - 1, e + pad);
+  data = data.slice(s, e + 1);
+  let peak = 0; for (const v of data) peak = Math.max(peak, Math.abs(v));
+  if (peak > 0) { const g = 0.95 / peak; for (let i = 0; i < data.length; i++) data[i] *= g; }
+  return encodeWav(data, rate);
+}
+function encodeWav(samples, rate) {
+  const b = new ArrayBuffer(44 + samples.length * 2), v = new DataView(b);
+  const w = (o, str) => { for (let i = 0; i < str.length; i++) v.setUint8(o + i, str.charCodeAt(i)); };
+  w(0, "RIFF"); v.setUint32(4, 36 + samples.length * 2, true); w(8, "WAVE");
+  w(12, "fmt "); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+  w(36, "data"); v.setUint32(40, samples.length * 2, true);
+  let o = 44; for (let i = 0; i < samples.length; i++, o += 2) { const x = Math.max(-1, Math.min(1, samples[i])); v.setInt16(o, x < 0 ? x * 0x8000 : x * 0x7fff, true); }
+  return new Blob([b], { type: "audio/wav" });
+}
+async function saveWav(letter, blob) {
+  const name = "pur-" + letter + ".wav";
+  if (dirHandle) {
+    const fh = await dirHandle.getFileHandle(name, { create: true });
+    const wr = await fh.createWritable(); await wr.write(blob); await wr.close();
+    return "✅ enregistré dans audio/";
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name; a.click();
+  return "⬇ téléchargé (" + name + ")";
+}
+
+function buildCard([letter, hint]) {
+  const card = document.createElement("div"); card.className = "card";
+  card.innerHTML = `<div class="letter">${letter}</div><div class="hint">${hint}</div>
+    <div class="row"><button class="rec">● Enregistrer</button><button class="play" disabled>▶</button></div>
+    <div class="state"></div>`;
+  const recBtn = card.querySelector(".rec"), playBtn = card.querySelector(".play"), state = card.querySelector(".state");
+  let rec = null, wav = null, autostop = null;
+  const setState = (t, err) => { state.textContent = t; state.classList.toggle("err", !!err); };
+
+  recBtn.onclick = async () => {
+    if (rec) { finish(); return; }
+    try {
+      await ensureAudio();
+      rec = makeRecorder(); rec.start();
+      recBtn.classList.add("recording"); recBtn.textContent = "■ Stop";
+      setState("🔴 enregistrement…");
+      autostop = setTimeout(finish, 4000);
+    } catch (e) { setState("⚠ micro refusé : " + e.message, true); }
+  };
+  async function finish() {
+    clearTimeout(autostop);
+    const samples = rec.stop(); rec = null;
+    recBtn.classList.remove("recording"); recBtn.textContent = "● Refaire";
+    wav = process(samples);
+    if (!wav) { setState("⚠ rien capté, réessaie (parle plus fort)", true); return; }
+    playBtn.disabled = false;
+    try { setState(await saveWav(letter, wav)); card.classList.add("done"); }
+    catch (e) { setState("⚠ écriture échouée : " + e.message, true); }
+  }
+  playBtn.onclick = () => { if (wav) new Audio(URL.createObjectURL(wav)).play(); };
+  return card;
+}
+const grid = document.getElementById("grid");
+SONS.forEach((s) => grid.appendChild(buildCard(s)));
+</script>
+</body></html>

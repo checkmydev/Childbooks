@@ -1,5 +1,5 @@
 /* service-worker.js — cache-first pour un fonctionnement 100% offline. */
-const CACHE = "leo-sons-v5";
+const CACHE = "leo-sons-v6";
 const ASSETS = [
   "./",
   "./index.html",
@@ -8,6 +8,7 @@ const ASSETS = [
   "./js/stories.js",
   "./js/illustrations.js",
   "./js/phonics.js",
+  "./js/readers.js",
   "./js/app.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",

@@ -7,6 +7,8 @@
   "use strict";
 
   const { SOUNDS, VOWELS, CONSONANTS, WORDS, JOURNEY } = window.PHONICS;
+  const READERS = window.READERS || [];
+  const sentenceSnd = window.sentenceSnd;
   const V = document.getElementById("view");
   const ttsWarn = document.getElementById("ttsWarn");
   const homeBtn = document.getElementById("homeBtn");
@@ -29,10 +31,10 @@
     if (ttsSupported) synth.cancel();
   }
 
-  function speakText(text, onend) {
+  function speakText(text, onend, rate) {
     if (!ttsSupported) { ttsWarn.hidden = false; if (onend) onend(); return; }
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "fr-FR"; u.rate = 0.9; u.pitch = 1.1;
+    u.lang = "fr-FR"; u.rate = rate || 0.9; u.pitch = 1.1;
     if (onend) u.onend = onend;
     synth.cancel(); synth.speak(u);
   }
@@ -55,6 +57,13 @@
   // Pas de repli parlé pour les consonnes (éviterait de dire le NOM de la lettre) :
   // tant que l'enregistrement n'existe pas, on reste silencieux et on enchaîne.
   function playPhoneme(letter, onend) { playUrl(`audio/pur-${letter}.wav`, null, onend); }
+
+  // Joue un "morceau" d'audio nommé (syllabe syl-*, mot mot-*, phrase phr-*,
+  // ou voyelle enregistrée pur-*.wav) avec repli parlé.
+  function playPiece(name, fallbackText, onend) {
+    if (name && name.indexOf("pur-") === 0) playUrl(`audio/${name}.wav`, fallbackText, onend);
+    else play(name, fallbackText, onend);
+  }
 
   const bounce = (node) => { if (!node) return; node.classList.remove("pop"); void node.offsetWidth; node.classList.add("pop"); };
 
@@ -84,6 +93,7 @@
       else if (r === "lettres") renderLettres();
       else if (r === "fusion") renderFusion();
       else if (r === "mots") renderMots();
+      else if (r === "lire") renderReaders();
       else if (r === "jeux") renderJeux();
       else if (r === "biblio") renderBiblio();
     });
@@ -347,6 +357,56 @@
     show(node);
   }
 
+  /* ================= 5) JE LIS (histoires décodables) ================= */
+  function renderReaders() {
+    const cards = READERS.map((s, i) => `
+      <button class="reader-card" data-i="${i}" style="--c:${s.color}">
+        <span class="rc-emoji">${s.emoji}</span>
+        <span class="rc-title">${s.title}</span>
+      </button>`).join("");
+    const node = el(`<div class="page">
+      <button class="back" data-home>← Accueil</button>
+      <h2 class="page-h">📕 Je lis — choisis une histoire à déchiffrer</h2>
+      <div class="reader-list">${cards}</div>
+    </div>`);
+    node.querySelector("[data-home]").onclick = renderHome;
+    node.addEventListener("click", (e) => {
+      const c = e.target.closest(".reader-card");
+      if (c) renderReaderStory(parseInt(c.dataset.i, 10));
+    });
+    show(node);
+  }
+
+  function wordHtml(w) {
+    if (w.sight) return `<button class="sight" data-a="${w.a}" data-t="${w.t}">${w.t}</button>`;
+    const chips = w.chips.map((c, k) => `<button class="dsyl s${k % 2}" data-a="${c.a}" data-t="${c.t}">${c.t}</button>`).join("");
+    const tail = w.tail ? `<span class="silent">${w.tail}</span>` : "";
+    return `<span class="dword">${chips}${tail}<button class="say-word" data-a="mot-${w.t}" data-t="${w.t}" aria-label="lire le mot">🔊</button></span>`;
+  }
+
+  function renderReaderStory(i) {
+    const s = READERS[i];
+    const rows = s.sentences.map((sen, ni) => `
+      <div class="dsentence">
+        <button class="say-phrase" data-a="${sentenceSnd(i, ni)}" data-t="${sen.map((w) => w.t).join(" ")}" aria-label="lire la phrase">▶</button>
+        <span class="dwords">${sen.map(wordHtml).join(" ")}</span>
+      </div>`).join("");
+    const node = el(`<div class="page reader-story" style="--c:${s.color}">
+      <button class="back" data-back>← Les histoires</button>
+      <h2 class="page-h">${s.emoji} ${s.title}</h2>
+      <p class="read-hint">Clique une <b>syllabe</b>, un <b>mot</b> 🔊 ou une <b>phrase</b> ▶ pour l'entendre.</p>
+      <div class="dstory">${rows}</div>
+    </div>`);
+    node.querySelector("[data-back]").onclick = renderReaders;
+    node.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-a]");
+      if (!b) return;
+      bounce(b);
+      playPiece(b.dataset.a, b.dataset.t);
+    });
+    show(node);
+  }
+
   /* ================= BONUS : Bibliothèque + Lecteur d'histoires ================= */
   const story = { cur: null, page: 0, audioEl: null, speaking: false, wordSpans: [] };
 
@@ -396,7 +456,7 @@
       const im = new Image(); im.src = "images/" + p.image; im.className = "ai-image";
       im.onload = () => { illu.innerHTML = ""; illu.appendChild(im); };
     }
-    node.querySelector("[data-text]").textContent = p.text;
+    buildWords(node.querySelector("[data-text]"), p.text);
     node.querySelector("[data-back]").onclick = renderBiblio;
     node.querySelector("[data-prev]").onclick = () => { if (story.page > 0) { story.page--; renderStoryPage(); } };
     node.querySelector("[data-next]").onclick = () => { if (story.page < total - 1) { story.page++; renderStoryPage(); } };
@@ -443,17 +503,24 @@
     story.speaking = false;
     clearStoryHighlight();
   }
-  // surlignage
-  function prepareStoryHighlight(textEl, text) {
+  // Découpe le texte en mots cliquables (déchiffrage : clic -> lecture lente).
+  function buildWords(textEl, text) {
     story.wordSpans = []; story.textEl = textEl;
     const frag = document.createDocumentFragment(); const re = /\S+\s*/g; let m;
     while ((m = re.exec(text)) !== null) { const sp = document.createElement("span"); sp.textContent = m[0]; sp.dataset.start = m.index; sp.className = "word"; frag.appendChild(sp); story.wordSpans.push(sp); }
     textEl.innerHTML = ""; textEl.appendChild(frag);
+    textEl.onclick = (e) => {
+      const sp = e.target.closest(".word");
+      if (sp) { stopStory(); updateReadAll(false); speakText(sp.textContent.trim(), null, 0.55); }
+    };
   }
+  // surlignage (reconstruit les mots cliquables)
+  function prepareStoryHighlight(textEl, text) { buildWords(textEl, text); }
+  function updateReadAll(on) { const b = document.querySelector("[data-read]"); if (b) updateReadUI(b.closest(".reader"), on); }
   function highlightAt(ci) { let t = null; for (const sp of story.wordSpans) { if (+sp.dataset.start <= ci) t = sp; else break; } hl(t); }
   function karaoke(a) { if (!a.duration || !isFinite(a.duration) || !story.wordSpans.length) return; const idx = Math.min(story.wordSpans.length - 1, Math.floor((a.currentTime / a.duration) * story.wordSpans.length)); hl(story.wordSpans[idx]); }
   function hl(t) { story.wordSpans.forEach((s) => s.classList.remove("reading")); if (t) t.classList.add("reading"); }
-  function clearStoryHighlight() { if (story.textEl && story.wordSpans.length) { const p = story.cur && story.cur.pages[story.page]; if (p) story.textEl.textContent = p.text; } story.wordSpans = []; }
+  function clearStoryHighlight() { if (story.wordSpans) story.wordSpans.forEach((s) => s.classList.remove("reading")); }
 
   /* ================= PWA ================= */
   let deferredPrompt = null;

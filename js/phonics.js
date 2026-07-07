@@ -67,7 +67,8 @@ const JOURNEY = [
   { id: "lettres", n: 2, title: "Les lettres", icon: "🔤", sub: "Associe chaque personnage à sa lettre" },
   { id: "fusion",  n: 3, title: "La fusion",   icon: "🔗", sub: "Mélange deux sons pour lire une syllabe" },
   { id: "mots",    n: 4, title: "Les mots",    icon: "📖", sub: "Lis tes premiers mots" },
-  { id: "jeux",    n: 5, title: "Les jeux",    icon: "🎮", sub: "Trouve le son, lis le mot" },
+  { id: "lire",    n: 5, title: "Je lis",      icon: "📕", sub: "Déchiffre une petite histoire tout seul" },
+  { id: "jeux",    n: 6, title: "Les jeux",    icon: "🎮", sub: "Trouve le son, lis le mot" },
 ];
 
 window.PHONICS = { SOUNDS, VOWELS, CONSONANTS, SYLLABLES, WORDS, JOURNEY };

@@ -1,0 +1,114 @@
+[
+{
+"file": "mot-a",
+"text": "a"
+},
+{
+"file": "mot-une",
+"text": "une"
+},
+{
+"file": "mot-un",
+"text": "un"
+},
+{
+"file": "mot-le",
+"text": "le"
+},
+{
+"file": "mot-sur",
+"text": "sur"
+},
+{
+"file": "mot-papa",
+"text": "papa"
+},
+{
+"file": "mot-moto",
+"text": "moto"
+},
+{
+"file": "mot-va",
+"text": "va"
+},
+{
+"file": "mot-vite",
+"text": "vite"
+},
+{
+"file": "mot-sami",
+"text": "sami"
+},
+{
+"file": "mot-nina",
+"text": "nina"
+},
+{
+"file": "mot-chat",
+"text": "chat"
+},
+{
+"file": "mot-sofa",
+"text": "sofa"
+},
+{
+"file": "mot-ami",
+"text": "ami"
+},
+{
+"file": "mot-mamie",
+"text": "mamie"
+},
+{
+"file": "mot-mila",
+"text": "mila"
+},
+{
+"file": "mot-banane",
+"text": "banane"
+},
+{
+"file": "mot-tomate",
+"text": "tomate"
+},
+{
+"file": "mot-salami",
+"text": "salami"
+},
+{
+"file": "phr-1-1",
+"text": "papa a une moto"
+},
+{
+"file": "phr-1-2",
+"text": "papa va vite"
+},
+{
+"file": "phr-1-3",
+"text": "sami va vite"
+},
+{
+"file": "phr-2-1",
+"text": "nina a un chat"
+},
+{
+"file": "phr-2-2",
+"text": "le chat va sur le sofa"
+},
+{
+"file": "phr-2-3",
+"text": "le chat a un ami"
+},
+{
+"file": "phr-3-1",
+"text": "mamie a une banane"
+},
+{
+"file": "phr-3-2",
+"text": "mila a une tomate"
+},
+{
+"file": "phr-3-3",
+"text": "papa a un salami"
+}
+]

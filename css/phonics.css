@@ -153,3 +153,29 @@
 /* ---------- Bibliothèque (bonus) : marges dans #view ---------- */
 .view .shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 18px; }
 .view .reader { padding: 0; }
+
+/* ---------- Je lis : histoires décodables ---------- */
+.reader-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 16px; max-width: 760px; margin: 0 auto; }
+.reader-card { display: flex; align-items: center; gap: 12px; cursor: pointer; border: none; border-left: 8px solid var(--c); background: #fff; border-radius: 16px; padding: 16px 18px; font-family: var(--font); box-shadow: 0 4px 12px rgba(42,33,64,.12); transition: transform .12s; }
+.reader-card:hover { transform: translateY(-4px); }
+.rc-emoji { font-size: 2.2rem; }
+.rc-title { font-size: 1.15rem; font-weight: bold; color: var(--ink); text-align: left; }
+
+.read-hint { text-align: center; color: var(--ink-soft); margin: -6px 0 18px; }
+.dstory { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.dsentence { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 16px; padding: 14px 16px; box-shadow: 0 4px 12px rgba(42,33,64,.1); }
+.dwords { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.say-phrase { flex-shrink: 0; border: none; background: var(--accent); color: #fff; width: 44px; height: 44px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; }
+.dword { display: inline-flex; align-items: center; gap: 2px; }
+.dsyl { border: none; font-family: var(--font); font-weight: bold; font-size: 1.5rem; padding: 6px 8px; border-radius: 8px; cursor: pointer; }
+.dsyl.s0 { background: #ece4ff; color: #6a4fb0; }
+.dsyl.s1 { background: #ffe4ef; color: #c43b78; }
+.dsyl:hover { filter: brightness(0.95); }
+.silent { font-size: 1.5rem; font-weight: bold; color: #c9c2d8; padding: 6px 2px; }
+.say-word { border: none; background: transparent; cursor: pointer; font-size: 1rem; padding: 2px; opacity: .7; }
+.say-word:hover { opacity: 1; }
+.sight { border: 2px dashed #b7aee0; background: #faf8ff; color: var(--ink-soft); font-family: var(--font); font-weight: bold; font-size: 1.4rem; padding: 5px 10px; border-radius: 10px; cursor: pointer; }
+.sight:hover { background: #f0ecff; }
+/* mot cliquable dans les contes (déchiffrage) */
+.reader .page-text .word { cursor: pointer; border-radius: 6px; }
+.reader .page-text .word:hover { background: #efe7ff; }

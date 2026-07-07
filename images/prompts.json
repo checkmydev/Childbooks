@@ -1,0 +1,46 @@
+{
+  "provider": "pollinations",
+  "model": "flux",
+  "width": 1024,
+  "height": 768,
+  "style": "Children's picture book illustration, soft hand-painted digital art, warm gentle color palette, soft rounded shapes, cozy storybook lighting, whimsical and adorable, high quality. No text, no words, no letters, no watermark.",
+  "characters": {
+    "momo": "Momo, a small round river otter with soft chestnut-brown fur, a cream-colored belly and cheeks, big friendly dark eyes, little whiskers and a gentle smile",
+    "gaston": "Gaston, a small chubby friendly dragon with soft mint-green scales, a pale green belly, tiny cute wings, three little spikes along his head, and big round expressive eyes",
+    "lila": "Lila, a cheerful young girl about seven years old with light-brown hair tied in two braids, wearing a pink dress",
+    "firefly": "a tiny glowing firefly with a warm golden light",
+    "rabbit": "a fluffy white rabbit with long ears",
+    "fox": "a small orange fox with a white belly and cheeks",
+    "owl": "a friendly brown owl with big round eyes and little ear tufts"
+  },
+  "pages": [
+    { "file": "loutre-page1.png", "seed": 101, "prompt": "Momo the otter sits happily by a sunny river with smooth pebbles and gentle ripples, green rolling hills and a leafy tree in the background, bright cheerful morning sky." },
+    { "file": "loutre-page2.png", "seed": 102, "prompt": "Momo the otter looks up in wonder at a glowing golden star that has fallen onto a grassy hilltop at night, deep starry blue sky, a soft crescent moon, magical warm glow around the star." },
+    { "file": "loutre-page3.png", "seed": 103, "prompt": "Momo the otter gently talks to a soft glowing golden star resting on a grassy night hill, tender caring mood, starry sky, warm magical light." },
+    { "file": "loutre-page4.png", "seed": 104, "prompt": "Momo the otter, a fluffy white rabbit and a small orange fox gathered together on a sunny green meadow, friendly and determined, blue sky with fluffy clouds, teamwork." },
+    { "file": "loutre-page5.png", "seed": 105, "prompt": "Momo the otter, a white rabbit and an orange fox playfully stacked on top of each other on a hilltop, the otter at the top gently tossing a glowing golden star up toward the sky, joyful cooperation, daytime." },
+    { "file": "loutre-page6.png", "seed": 106, "prompt": "A golden star shines brightly again in a warm sunset sky above rolling hills and a calm river, Momo the little otter waving happily from below, orange and pink sunset colors, heartwarming." },
+
+    { "file": "dragon-page1.png", "seed": 201, "prompt": "Gaston the dragon stands proudly in front of a cozy mountain cave on a bright sunny day, green hills and blue sky, cheerful and brave." },
+    { "file": "dragon-page2.png", "seed": 202, "prompt": "Gaston the dragon trembles, scared, inside the dark interior of his cave at night, big worried eyes, deep dark blue and violet tones, faint mysterious soft shadows around him." },
+    { "file": "dragon-page3.png", "seed": 203, "prompt": "Gaston the dragon tries to breathe fire in a dark cave but only a tiny faint spark comes out, worried expression, cozy dark cave, small warm spark of light." },
+    { "file": "dragon-page4.png", "seed": 204, "prompt": "A glowing warm firefly floats into the dark cave and meets shy Gaston the dragon, gentle magical golden light softly illuminating his face, night, tender friendly mood." },
+    { "file": "dragon-page5.png", "seed": 205, "prompt": "A cheerful glowing firefly dances around a smiling Gaston the dragon inside the cave, soft warm light turning the shadows friendly, cozy magical night atmosphere." },
+    { "file": "dragon-page6.png", "seed": 206, "prompt": "Gaston the dragon happily breathes a warm cozy flame that lights up the whole cave, relieved and joyful, warm orange glow filling the space, no monsters, safe and happy." },
+    { "file": "dragon-page7.png", "seed": 207, "prompt": "Brave happy Gaston the dragon and his glowing firefly friend watch the stars together at sunset on a hill near pine trees, warm orange sky, peaceful heartwarming ending." },
+
+    { "file": "lila-page1.png", "seed": 301, "prompt": "Lila the girl in a colorful flower garden holding a small shiny silver seed that sparkles in her hands, sunny sky, blooming flowers all around, wonder and curiosity." },
+    { "file": "lila-page2.png", "seed": 302, "prompt": "Lila the girl kneeling and carefully planting a small seed in soft brown soil in a sunny garden, gentle caring gesture, flowers nearby." },
+    { "file": "lila-page3.png", "seed": 303, "prompt": "A gentle rainy day over a garden, soft rain falling from grey-blue clouds, a tiny green sprout just starting to emerge from the wet soil, calm soft mood." },
+    { "file": "lila-page4.png", "seed": 304, "prompt": "Lila the girl smiling with joy at a tiny fresh green sprout emerging from the soil in a sunny garden, hopeful tender moment, bright morning light." },
+    { "file": "lila-page5.png", "seed": 305, "prompt": "A small plant with green leaves and a single bright orange flower like a little sun, growing in a sunny cheerful garden, blue sky, warm light." },
+    { "file": "lila-page6.png", "seed": 306, "prompt": "A huge magnificent tree covered in colorful multicolored flowers with little birds singing in its branches at sunset, Lila the girl standing happily beside it, magical warm glowing atmosphere." },
+
+    { "file": "invent-page1.png", "seed": 401, "prompt": "An orange fox, a fluffy white rabbit and a friendly brown owl standing together as good friends in a lush green forest with pine trees, sunny day, warm group portrait." },
+    { "file": "invent-page2.png", "seed": 402, "prompt": "A broken wooden bridge over a swollen rushing river in a green forest, worried little animals on the near bank, dramatic yet child-friendly, blue sky." },
+    { "file": "invent-page3.png", "seed": 403, "prompt": "An orange fox, a white rabbit and a brown owl thinking and discussing together at the edge of a wide river in a forest, thoughtful problem-solving mood, daytime." },
+    { "file": "invent-page4.png", "seed": 404, "prompt": "An orange fox climbing a tree, a white rabbit tinkering, and a brown owl drawing plans, together building a clever contraption with ropes and pulleys and vines in a forest, teamwork invention scene, sunny." },
+    { "file": "invent-page5.png", "seed": 405, "prompt": "A clever little wooden raft pulled by ropes and pulleys, ready to cross a forest river, invention finished, hopeful anticipation, bright day, green surroundings." },
+    { "file": "invent-page6.png", "seed": 406, "prompt": "A joyful celebration with colorful confetti in a forest at sunset, an orange fox, a white rabbit and a brown owl cheering together happily, festive happy ending, warm orange sky." }
+  ]
+}

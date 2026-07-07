@@ -1,0 +1,174 @@
+/* ============================================================================
+ * styles.css — P'tits Contes. UI enfant-friendly, mobile-first, accessible.
+ * ==========================================================================*/
+:root {
+  --bg: #f5f0ff;
+  --bg-2: #ece4ff;
+  --ink: #2a2140;
+  --ink-soft: #6b6385;
+  --accent: #6a4fb0;
+  --accent-2: #ff8fbf;
+  --card-radius: 22px;
+  --font: "Comic Sans MS", "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background: linear-gradient(160deg, var(--bg), var(--bg-2));
+  min-height: 100%;
+}
+body { min-height: 100vh; -webkit-tap-highlight-color: transparent; }
+
+/* ---------- Barre d'app ---------- */
+.app-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  padding-top: max(14px, env(safe-area-inset-top));
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(106, 79, 176, 0.3);
+  position: sticky; top: 0; z-index: 10;
+}
+.app-title { font-size: 1.5rem; margin: 0; letter-spacing: 0.5px; }
+.install-btn {
+  border: none; background: #fff; color: var(--accent);
+  font-family: var(--font); font-weight: bold;
+  padding: 8px 14px; border-radius: 999px; cursor: pointer; font-size: 0.9rem;
+}
+
+/* ---------- Bibliothèque ---------- */
+.library { padding: 18px; max-width: 1000px; margin: 0 auto; }
+.tagline { text-align: center; font-size: 1.15rem; color: var(--ink-soft); margin: 6px 0 18px; }
+
+.age-filter { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 22px; }
+.chip {
+  border: 3px solid transparent; background: #fff; color: var(--accent);
+  font-family: var(--font); font-size: 1rem; font-weight: bold;
+  padding: 8px 16px; border-radius: 999px; cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08); transition: transform .12s, border-color .12s;
+}
+.chip:hover { transform: translateY(-2px); }
+.chip.active { border-color: var(--accent-2); background: var(--accent); color: #fff; }
+
+.shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.book-card {
+  border: none; text-align: left; cursor: pointer; padding: 0;
+  background: #fff; border-radius: var(--card-radius);
+  overflow: hidden; box-shadow: 0 6px 18px rgba(42, 33, 64, 0.12);
+  transition: transform .16s ease, box-shadow .16s ease;
+  font-family: var(--font); display: flex; flex-direction: column;
+}
+.book-card:hover, .book-card:focus-visible {
+  transform: translateY(-6px) rotate(-0.5deg);
+  box-shadow: 0 14px 30px rgba(42, 33, 64, 0.22);
+  outline: none;
+}
+.book-cover {
+  position: relative; aspect-ratio: 4 / 3; background: var(--book-color, #333);
+  overflow: hidden;
+}
+.book-cover svg { width: 100%; height: 100%; display: block; }
+.book-emoji {
+  position: absolute; right: 10px; bottom: 8px; font-size: 2rem;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
+}
+.book-meta { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 3px; }
+.book-title { font-size: 1.1rem; font-weight: bold; line-height: 1.2; }
+.book-sub { color: var(--accent); font-size: 0.9rem; }
+.book-age { color: var(--ink-soft); font-size: 0.8rem; }
+.empty { grid-column: 1 / -1; text-align: center; color: var(--ink-soft); font-size: 1.1rem; }
+
+/* ---------- Lecteur ---------- */
+.reader {
+  max-width: 900px; margin: 0 auto; min-height: 100vh;
+  display: flex; flex-direction: column; padding: 0 14px 20px;
+}
+.reader-bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 4px; padding-top: max(14px, env(safe-area-inset-top));
+  position: sticky; top: 0; background: linear-gradient(160deg, var(--bg), var(--bg-2)); z-index: 5;
+}
+.round-btn {
+  border: none; background: var(--accent); color: #fff; font-family: var(--font);
+  font-weight: bold; padding: 10px 16px; border-radius: 999px; cursor: pointer; font-size: 1rem;
+  white-space: nowrap;
+}
+.reader-title { flex: 1; font-weight: bold; font-size: 1rem; color: var(--ink); }
+.progress { flex: 0 0 90px; height: 10px; background: #fff; border-radius: 999px; overflow: hidden; }
+.progress-fill { display: block; height: 100%; width: 0; background: var(--accent-2); transition: width .3s; }
+
+.page-view { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+.illustration {
+  margin: 0; border-radius: var(--card-radius); overflow: hidden;
+  box-shadow: 0 8px 24px rgba(42, 33, 64, 0.18); background: #fff;
+  aspect-ratio: 4 / 3; width: 100%;
+}
+.illustration svg, .illustration .ai-image {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.illustration.flip { animation: flipIn .45s ease; }
+@keyframes flipIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+.text-panel {
+  background: #fff; border-radius: var(--card-radius);
+  box-shadow: 0 4px 14px rgba(42, 33, 64, 0.1); padding: 20px 22px;
+}
+.page-text { font-size: 1.35rem; line-height: 1.7; margin: 0; }
+.page-text .word { border-radius: 6px; transition: background .1s, color .1s; }
+.page-text .word.reading { background: var(--accent-2); color: #fff; padding: 0 2px; }
+
+/* ---------- Contrôles ---------- */
+.controls {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 18px;
+}
+.nav-btn {
+  border: none; background: #fff; color: var(--accent); font-size: 1.6rem;
+  width: 60px; height: 60px; border-radius: 50%; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(42, 33, 64, 0.15); flex-shrink: 0;
+  transition: transform .1s;
+}
+.nav-btn:hover:not(:disabled) { transform: scale(1.08); }
+.nav-btn:disabled { opacity: 0.35; cursor: default; }
+
+.audio-controls { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+.read-btn {
+  border: none; background: var(--accent-2); color: #fff; font-family: var(--font);
+  font-weight: bold; font-size: 1.2rem; padding: 14px 26px; border-radius: 999px;
+  cursor: pointer; box-shadow: 0 5px 16px rgba(255, 143, 191, 0.5);
+  display: flex; align-items: center; gap: 8px; white-space: nowrap;
+}
+.read-btn.playing { background: var(--accent); box-shadow: 0 5px 16px rgba(106, 79, 176, 0.5); animation: pulse 1.4s infinite; }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+.read-btn:disabled { opacity: 0.5; }
+.speed { display: flex; align-items: center; gap: 8px; font-size: 1.1rem; }
+.speed input { width: 110px; accent-color: var(--accent); }
+
+.page-count { text-align: center; color: var(--ink-soft); margin: 14px 0 0; font-size: 0.95rem; }
+.tts-warn { text-align: center; color: #b0468a; margin-top: 6px; }
+
+/* ---------- Responsive ---------- */
+@media (min-width: 720px) {
+  .page-view { flex-direction: row; align-items: stretch; }
+  .illustration { flex: 1.2; aspect-ratio: auto; }
+  .text-panel { flex: 1; display: flex; align-items: center; }
+  .page-text { font-size: 1.45rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

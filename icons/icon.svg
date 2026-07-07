@@ -1,0 +1,29 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7a5cc4"/>
+      <stop offset="100%" stop-color="#6a4fb0"/>
+    </linearGradient>
+    <linearGradient id="pg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f0e9ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- livre ouvert -->
+  <g transform="translate(256 268)">
+    <path d="M-150 -70 Q -80 -100 0 -78 L0 96 Q -80 74 -150 100 Z" fill="url(#pg)"/>
+    <path d="M150 -70 Q 80 -100 0 -78 L0 96 Q 80 74 150 100 Z" fill="url(#pg)"/>
+    <path d="M0 -78 L0 96" stroke="#d9cdf5" stroke-width="6"/>
+    <path d="M-125 -58 Q -70 -78 -18 -62" stroke="#c9baef" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M-125 -22 Q -70 -42 -18 -26" stroke="#c9baef" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M-125 14 Q -70 -6 -18 10" stroke="#c9baef" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M125 -58 Q 70 -78 18 -62" stroke="#c9baef" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M125 -22 Q 70 -42 18 -26" stroke="#c9baef" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M125 14 Q 70 -6 18 10" stroke="#c9baef" stroke-width="7" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- étoile -->
+  <g transform="translate(256 150)">
+    <polygon points="0,-46 13,-14 47,-14 20,8 30,42 0,20 -30,42 -20,8 -47,-14 -13,-14" fill="#ffd94a" stroke="#f4b400" stroke-width="4"/>
+  </g>
+</svg>

@@ -16,11 +16,31 @@
     { "file": "son-l.png", "seed": 518, "prompt": "a cute smiling green garden snail with a swirly shell and little antennae." },
     { "file": "son-r.png", "seed": 519, "prompt": "a cute friendly little robot with a round head, a small antenna, and a big smile." },
 
+    { "file": "son-e.png", "seed": 520, "prompt": "a cute small round teal creature with a calm gentle face and a tiny neutral mouth, adorable." },
+    { "file": "son-p.png", "seed": 521, "prompt": "a cute friendly little pirate child with a pirate hat and an eye patch, big smile, cartoon." },
+    { "file": "son-t.png", "seed": 522, "prompt": "a cute shiny golden trumpet with a happy little cartoon face." },
+    { "file": "son-d.png", "seed": 523, "prompt": "a cute smiling blue dolphin jumping, cartoon." },
+    { "file": "son-n.png", "seed": 524, "prompt": "a cute smiling fluffy white cloud with rosy cheeks and big eyes, cartoon." },
+    { "file": "son-v.png", "seed": 525, "prompt": "a cute friendly cow with brown spots, big eyes and a happy smile, cartoon." },
+    { "file": "son-b.png", "seed": 526, "prompt": "a cute round red balloon with a cheerful little cartoon face." },
+    { "file": "son-j.png", "seed": 527, "prompt": "a cute friendly purple elf genie character with a pointy hat, big smile, cartoon." },
+    { "file": "son-ch.png", "seed": 528, "prompt": "a cute smiling grey cat holding one paw to its mouth as if saying shhh, cartoon." },
+
     { "file": "mot-lama.png", "seed": 531, "prompt": "a cute fluffy llama standing, adorable cartoon animal." },
     { "file": "mot-sofa.png", "seed": 532, "prompt": "a cozy comfy couch sofa, inviting cartoon furniture." },
     { "file": "mot-salami.png", "seed": 533, "prompt": "a salami sausage with a couple of round slices next to it, appetizing cartoon food." },
     { "file": "mot-sumo.png", "seed": 534, "prompt": "a friendly cartoon sumo wrestler standing and smiling, cute and funny." },
     { "file": "mot-lasso.png", "seed": 535, "prompt": "a cowboy lasso, a looped rope, cartoon style on a plain background." },
-    { "file": "mot-mur.png", "seed": 536, "prompt": "a colorful brick wall, simple cheerful cartoon style." }
+    { "file": "mot-mur.png", "seed": 536, "prompt": "a colorful brick wall, simple cheerful cartoon style." },
+
+    { "file": "mot-moto.png", "seed": 537, "prompt": "a cute red motorcycle, cartoon, side view, cheerful." },
+    { "file": "mot-tomate.png", "seed": 538, "prompt": "a cute ripe red tomato with a little green stem, cartoon food." },
+    { "file": "mot-banane.png", "seed": 539, "prompt": "a cute ripe yellow banana, cartoon food." },
+    { "file": "mot-domino.png", "seed": 540, "prompt": "a single white domino tile with black dots, cartoon, on plain background." },
+    { "file": "mot-robot.png", "seed": 541, "prompt": "a cute friendly retro robot standing, cartoon, colorful." },
+    { "file": "mot-chat.png", "seed": 542, "prompt": "a cute orange cat sitting and smiling, adorable cartoon." },
+    { "file": "mot-papa.png", "seed": 543, "prompt": "a friendly smiling cartoon dad, warm and cheerful, upper body." },
+    { "file": "mot-lune.png", "seed": 544, "prompt": "a cute crescent moon with a gentle sleepy face on a starry night sky, cartoon." },
+    { "file": "mot-vache.png", "seed": 545, "prompt": "a cute cow with brown and white spots standing in a green field, cartoon." }
   ]
 }

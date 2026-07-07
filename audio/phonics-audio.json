@@ -1,14 +1,322 @@
 [
-  { "file": "syl-sa", "text": "sa" }, { "file": "syl-si", "text": "si" }, { "file": "syl-so", "text": "so" }, { "file": "syl-su", "text": "su" },
-  { "file": "syl-fa", "text": "fa" }, { "file": "syl-fi", "text": "fi" }, { "file": "syl-fo", "text": "fo" }, { "file": "syl-fu", "text": "fu" },
-  { "file": "syl-ma", "text": "ma" }, { "file": "syl-mi", "text": "mi" }, { "file": "syl-mo", "text": "mo" }, { "file": "syl-mu", "text": "mu" },
-  { "file": "syl-la", "text": "la" }, { "file": "syl-li", "text": "li" }, { "file": "syl-lo", "text": "lo" }, { "file": "syl-lu", "text": "lu" },
-  { "file": "syl-ra", "text": "ra" }, { "file": "syl-ri", "text": "ri" }, { "file": "syl-ro", "text": "ro" }, { "file": "syl-ru", "text": "ru" },
-
-  { "file": "mot-lama", "text": "lama" },
-  { "file": "mot-sofa", "text": "sofa" },
-  { "file": "mot-salami", "text": "salami" },
-  { "file": "mot-sumo", "text": "sumo" },
-  { "file": "mot-lasso", "text": "lasso" },
-  { "file": "mot-mur", "text": "mur" }
+{
+"file": "syl-sa",
+"text": "sa"
+},
+{
+"file": "syl-se",
+"text": "se"
+},
+{
+"file": "syl-si",
+"text": "si"
+},
+{
+"file": "syl-so",
+"text": "so"
+},
+{
+"file": "syl-su",
+"text": "su"
+},
+{
+"file": "syl-fa",
+"text": "fa"
+},
+{
+"file": "syl-fe",
+"text": "fe"
+},
+{
+"file": "syl-fi",
+"text": "fi"
+},
+{
+"file": "syl-fo",
+"text": "fo"
+},
+{
+"file": "syl-fu",
+"text": "fu"
+},
+{
+"file": "syl-ma",
+"text": "ma"
+},
+{
+"file": "syl-me",
+"text": "me"
+},
+{
+"file": "syl-mi",
+"text": "mi"
+},
+{
+"file": "syl-mo",
+"text": "mo"
+},
+{
+"file": "syl-mu",
+"text": "mu"
+},
+{
+"file": "syl-la",
+"text": "la"
+},
+{
+"file": "syl-le",
+"text": "le"
+},
+{
+"file": "syl-li",
+"text": "li"
+},
+{
+"file": "syl-lo",
+"text": "lo"
+},
+{
+"file": "syl-lu",
+"text": "lu"
+},
+{
+"file": "syl-ra",
+"text": "ra"
+},
+{
+"file": "syl-re",
+"text": "re"
+},
+{
+"file": "syl-ri",
+"text": "ri"
+},
+{
+"file": "syl-ro",
+"text": "ro"
+},
+{
+"file": "syl-ru",
+"text": "ru"
+},
+{
+"file": "syl-pa",
+"text": "pa"
+},
+{
+"file": "syl-pe",
+"text": "pe"
+},
+{
+"file": "syl-pi",
+"text": "pi"
+},
+{
+"file": "syl-po",
+"text": "po"
+},
+{
+"file": "syl-pu",
+"text": "pu"
+},
+{
+"file": "syl-ta",
+"text": "ta"
+},
+{
+"file": "syl-te",
+"text": "te"
+},
+{
+"file": "syl-ti",
+"text": "ti"
+},
+{
+"file": "syl-to",
+"text": "to"
+},
+{
+"file": "syl-tu",
+"text": "tu"
+},
+{
+"file": "syl-da",
+"text": "da"
+},
+{
+"file": "syl-de",
+"text": "de"
+},
+{
+"file": "syl-di",
+"text": "di"
+},
+{
+"file": "syl-do",
+"text": "do"
+},
+{
+"file": "syl-du",
+"text": "du"
+},
+{
+"file": "syl-na",
+"text": "na"
+},
+{
+"file": "syl-ne",
+"text": "ne"
+},
+{
+"file": "syl-ni",
+"text": "ni"
+},
+{
+"file": "syl-no",
+"text": "no"
+},
+{
+"file": "syl-nu",
+"text": "nu"
+},
+{
+"file": "syl-va",
+"text": "va"
+},
+{
+"file": "syl-ve",
+"text": "ve"
+},
+{
+"file": "syl-vi",
+"text": "vi"
+},
+{
+"file": "syl-vo",
+"text": "vo"
+},
+{
+"file": "syl-vu",
+"text": "vu"
+},
+{
+"file": "syl-ba",
+"text": "ba"
+},
+{
+"file": "syl-be",
+"text": "be"
+},
+{
+"file": "syl-bi",
+"text": "bi"
+},
+{
+"file": "syl-bo",
+"text": "bo"
+},
+{
+"file": "syl-bu",
+"text": "bu"
+},
+{
+"file": "syl-ja",
+"text": "ja"
+},
+{
+"file": "syl-je",
+"text": "je"
+},
+{
+"file": "syl-ji",
+"text": "ji"
+},
+{
+"file": "syl-jo",
+"text": "jo"
+},
+{
+"file": "syl-ju",
+"text": "ju"
+},
+{
+"file": "syl-cha",
+"text": "cha"
+},
+{
+"file": "syl-che",
+"text": "che"
+},
+{
+"file": "syl-chi",
+"text": "chi"
+},
+{
+"file": "syl-cho",
+"text": "cho"
+},
+{
+"file": "syl-chu",
+"text": "chu"
+},
+{
+"file": "mot-lama",
+"text": "lama"
+},
+{
+"file": "mot-sofa",
+"text": "sofa"
+},
+{
+"file": "mot-salami",
+"text": "salami"
+},
+{
+"file": "mot-sumo",
+"text": "sumo"
+},
+{
+"file": "mot-lasso",
+"text": "lasso"
+},
+{
+"file": "mot-mur",
+"text": "mur"
+},
+{
+"file": "mot-moto",
+"text": "moto"
+},
+{
+"file": "mot-tomate",
+"text": "tomate"
+},
+{
+"file": "mot-banane",
+"text": "banane"
+},
+{
+"file": "mot-domino",
+"text": "domino"
+},
+{
+"file": "mot-robot",
+"text": "robot"
+},
+{
+"file": "mot-chat",
+"text": "chat"
+},
+{
+"file": "mot-papa",
+"text": "papa"
+},
+{
+"file": "mot-lune",
+"text": "lune"
+},
+{
+"file": "mot-vache",
+"text": "vache"
+}
 ]

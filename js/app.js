@@ -39,15 +39,21 @@
     synth.cancel(); synth.speak(u);
   }
 
-  // Joue une URL audio ; à défaut, prononce `fallbackText` (ou appelle onend).
+  // Joue une URL audio ; à défaut (fichier manquant), prononce `fallbackText`.
   function playUrl(url, fallbackText, onend) {
     stopAudio();
     const a = new Audio(url);
     current = a;
-    const done = () => { current = null; if (onend) onend(); };
-    a.onended = done;
-    a.onerror = () => { current = null; if (fallbackText) speakText(fallbackText, onend); else done(); };
-    a.play().catch(() => { current = null; if (fallbackText) speakText(fallbackText, onend); else done(); });
+    a.onended = () => { if (current === a) current = null; if (onend) onend(); };
+    // Vraie erreur de chargement (fichier absent) -> repli parlé.
+    a.onerror = () => { if (current === a) current = null; if (fallbackText) speakText(fallbackText, onend); else if (onend) onend(); };
+    a.play().catch((err) => {
+      // Interruption due à un nouveau clic (stopAudio a mis en pause) -> ne rien épeler.
+      if (err && err.name === "AbortError") return;
+      if (current !== a) return;
+      current = null;
+      if (fallbackText) speakText(fallbackText, onend); else if (onend) onend();
+    });
   }
 
   // Joue audio/<file>.mp3 (syllabes, mots…) ; à défaut, prononce `fallbackText`.
